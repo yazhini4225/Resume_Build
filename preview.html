@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Preview</title>
+</head>
+<body>
+    <div id="resume">
+        <!-- JavaScript to display resume content -->
+        <script>
+            window.onload = function() {
+                // Retrieve the resume content from the query parameters
+                const params = new URLSearchParams(window.location.search);
+                const resumeContent = decodeURIComponent(params.get('content'));
+                
+                // Display the resume content
+                document.getElementById('resume').innerHTML = resumeContent;
+            }
+        </script>
+    </div>
+</body>
+</html>

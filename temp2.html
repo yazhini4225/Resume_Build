@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume</title>
+    <link rel="stylesheet" href="temp2.css">
+</head>
+<body>
+    <a href="preview.html">Preview Template</a>
+    <div class="nav">
+        <button onclick="window.location.href='home.html'"><i class="fas fa-home"></i> Home</button>
+        <button onclick="previewResume()">Preview Template</button>
+        <button onclick="downloadPDF()">Download PDF</button>
+        <button onclick="downloadWord()">Download Word</button>
+    </div>
+
+    <div class="container">
+        <div class="resume" id="resume">
+            <h1 contenteditable="true">John Doe</h1>
+            <p contenteditable="true">Web Developer</p>
+            <hr>
+            <h2>Skills</h2>
+            <ul>
+                <li contenteditable="true">HTML</li>
+                <li contenteditable="true">CSS</li>
+                <li contenteditable="true">JavaScript</li>
+            </ul>
+            <hr>
+            <h2>Experience</h2>
+            <p contenteditable="true">Frontend Developer at ABC Company</p>
+            <p contenteditable="true">January 2020 - Present</p>
+            <hr>
+            <h2>Education</h2>
+            <p contenteditable="true">Bachelor's Degree in Computer Science</p>
+            <p contenteditable="true">XYZ University</p>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+    <script>
+        function previewResume() {
+            const resumeContent = encodeURIComponent(document.getElementById('resume').innerHTML);
+            window.open('preview.html?content=' + resumeContent);
+        }
+
+        function downloadPDF() {
+            const resumeContent = document.getElementById('resume').innerHTML;
+            const pdf = new jsPDF();
+            
+            pdf.html(resumeContent, {
+                callback: function (pdf) {
+                    pdf.save('resume.pdf');
+                },
+                x: 10,
+                y: 10
+            });
+        }
+
+        function downloadWord() {
+            const preHtml = "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Export HTML To Doc</title></head><body>";
+            const postHtml = "</body></html>";
+            const html = preHtml + document.getElementById('resume').innerHTML + postHtml;
+
+            const blob = new Blob(['\ufeff', html], {
+                type: 'application/msword'
+            });
+
+            const url = URL.createObjectURL(blob);
+            const downloadLink = document.createElement("a");
+            downloadLink.href = url;
+            downloadLink.download = 'resume.doc';
+
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+        }
+    </script>
+</body>
+</html>
